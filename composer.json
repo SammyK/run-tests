@@ -1,5 +1,15 @@
 {
     "require-dev": {
         "phpunit/phpunit": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "RunTests\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     }
 }
