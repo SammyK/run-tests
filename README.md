@@ -2,7 +2,7 @@
 
 The `run-tests.php` script is a black-box testing tool that is a crucial pillar to the continued development of the PHP language.
 
-**GOAL: Refactor [run-tests.php](https://github.com/php/php-src/blob/master/run-tests.php) so that it is manageable & add unit tests. Then add concurrency, prettier output & more.**
+**GOAL: Refactor [run-tests.php](https://github.com/php/php-src/blob/master/run-tests.php) so that it is manageable & unit tested. Then we can add concurrency, prettier output & more.**
 
 ## The problem
 
@@ -12,21 +12,23 @@ Run-tests is a legacy script that has a number of bugs that are hard to diagnose
 
 We should treat run-tests like any other legacy application and refactor it in little bits at a time. Over time the code will become much more manageable so that squashing bugs and adding features will become much more achievable. 
 
-The drawback to refactoring in this way (a little at a time) in the open-source context is that it can take ages if pull requests don't get merged in quickly. To alleviate this **we need two dedicated volunteers with push-access to the php-src repo who will commit to reviewing and testing pull requests for run-tests**. The goal would be to have a pretty reasonable turn-around time for each PR (about 1-3 days).
+The drawback to refactoring in this way (a little at a time) in the open-source context is that it will take ages, especially pull requests don't get merged in quickly. To speed up development **we need two dedicated volunteers with push-access to the php-src repo who will commit to regularly reviewing and testing pull requests for run-tests**. The goal would be to have a pretty reasonable turn-around time for each run-tests PR (about 1-3 days).
+
+## In it for the long haul
+
+The run-tests refactor will take many months and probably years to "complete". The good news is that with every PR, run-tests will be a little bit better than it was before.
 
 ## Proposed refactoring path
 
-Luckily, the run-tests script is just under 3,000 lines of code which sounds like a lot, but it is not too difficult to wrap your head around it with a few hours of auditing. I (Sammy Kaye Powers) have scanned the whole script and made notes of my discoveries in the [Audit Notes](#audit-notes-wip) section below.
+Luckily, the run-tests script is just under 3,000 lines of code which sounds like a lot, but it is not too difficult to wrap your head around it with a few hours of auditing. I (@SammyK) have scanned the whole script and made notes of my discoveries in the [Audit Notes](#audit-notes-wip) section below.
 
 After my audit, I propose we kick-off the refactor of run-tests as follows.
 
 - [ ] Create a `run-tests` folder where all the PSR-4 autoloaded & manually included code will live.
-- [ ] Move this `README.md` to the `run-tests` folder and keep it updated as run-tests documentation. #DocumentationDrivenDevelopment
-- [ ] Add a `CONTRIBUTING.md` to the `run-tests` folder to encourage others to get involved with the refactoring effort. Would include tips such as: "PR's for run-tests should be prefixed with the tag [run-tests]."
-- [ ] Install PHPUnit with composer **as a dev dependency so that `composer install` won't be required to execute run tests**. You'll only need to run `composer install` if you want to run the unit tests. We'll also be using our own autoloader for "production", not the composer one.
-- [ ] Keep `run-tests.php` where it is (for forever) and start refactoring the code into the autoloaded classes and included functions from the `run-tests` folder. The ultimate goal would be to have `run-tests.php` to just include the bootstrap file and fire off the run-tests app.
-
-With each refactor, add unit tests and run the whole `phpt` test suite as an "end-to-end" test to ensure that you didn't break anything.
+- [ ] Move this `README.md` to the `run-tests` folder and keep it updated as run-tests API documentation while it gets refactored. #DocumentationDrivenDevelopment The [.phpt docs](http://qa.php.net/write-test.php) can stay where they are (although there are a few undocumented features like phpdbg that should be added to those docs).
+- [ ] Add a `CONTRIBUTING.md` to the `run-tests` folder to encourage others to get involved with the refactoring effort. The document would include tips such as: "PR's for run-tests should be prefixed with the tag [run-tests]." And: "With each refactor, add unit tests and run the whole `phpt` test suite as an 'end-to-end' test to ensure that you didn't break anything."
+- [ ] Install PHPUnit with composer **as a dev dependency so that `composer install` won't be required to execute run tests**. You'll only need to run `composer install` if you want to run the unit tests against the run-tests tool. We'll also be using our own autoloader for "production", not the composer one.
+- [ ] Keep `run-tests.php` where it is (for forever) and start refactoring the code into the autoloaded classes and included functions from the `run-tests` folder. The ultimate goal would be to have `run-tests.php` just include the bootstrap file and fire off the run-tests app.
 
 Each refactor should take us closer to the following goals:
 
