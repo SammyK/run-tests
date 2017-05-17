@@ -186,7 +186,7 @@ Some statuses can also contain a message/reason for the test being that status.
 
 - [ ] For all `file_get_contents()` and `file_put_contents()` operations using [`FILE_BINARY`](http://php.net/manual/en/filesystem.constants.php#constant.file-binary), those have no effect.
 - LOLz
-    - [Debug your regex](https://github.com/php/php-src/blob/master/run-tests.php#L2066-L2070)
+    - [Debug your regex](https://github.com/php/php-src/blob/041652bd4186a469d1e0074f87a9b4f7e0970fe8/run-tests.php#L2124-L2128)
 
 ## Refactoring considerations
 
